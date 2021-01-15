@@ -1,0 +1,116 @@
+---
+title: "Exploratory Data Analysis"
+author: "Cameron Hansen"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+## Reading Notes
+
+### EDA
+
+#### Questions
+ 
+- the right question with a near correct answer is better than the wrong question with a percise answer.
+- What type of variation occurs within my variables
+- What type of covariation occurs between my variables?
+
+##### Variation
+How much the  value changes from observation  to observation. You can find value in:
+- Look for a pattern in the variation of the data.
+- What calculations are most common and Why?
+- Which values are rare? Why? Does that match your expectations?
+- Can you see any unusual patterns? What might explain them?
+
+You can group the data to find even more relations. 
+
+##### Missing Values
+Two solutions
+- Remove Values
+- Impute Vaules
+
+##### CoVariation
+
+A boxplot is a great way to see the covariance, the relationship between variables. 
+- Reorder function
+- Scattperplots
+
+#### Patterns
+
+
+## EDA Example
+
+The code below is an example of the EDA process using the `starwars` data from the `tidyverse` package. (Make sure you have the `tidyverse` package installed!)
+
+Run the code line-by-line and look at the output. Add a comment to each line of code that explains what it does/what insights it provides.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+dim(starwars)
+colnames(starwars)
+
+head(starwars)
+glimpse(starwars)
+
+?starwars
+
+starwars %>% count(species)
+
+mean(starwars$height)
+mean(starwars$height, na.rm = TRUE)
+
+summary(starwars$height)
+
+cm_to_ft <- function(cm){
+  ft = cm / 30.48
+  return(ft)
+}
+
+starwars_2 <- starwars %>% mutate(height_ft = cm_to_ft(height)) 
+
+dim(starwars_2)
+colnames(starwars_2)
+
+summary(starwars_2$height_ft)
+
+ggplot(starwars_2, aes(height_ft)) + 
+  geom_histogram()
+
+starwars_2 %>% filter(height_ft == max(height_ft))
+starwars_2 %>% filter(height_ft == max(height_ft, na.rm = TRUE))
+
+# https://starwars.fandom.com/wiki/Yarael_Poof
+```
+
+## EDA Practice
+
+Continue exploring the `starwars` data to gain additional insights, using [R4DS: Chapter 7](https://r4ds.had.co.nz/exploratory-data-analysis.html) as a guide.
+
+It is ok if you don't understand the all code in Chapter 7. (That is what we'll be learning the next two weeks!) If writing your own code is a struggle, try the "copy, paste, and tweak" method.
+
+```{r}
+smaller <- diamonds %>% 
+  filter(carat < 3)
+  
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.1)
+```
+
+```{r}
+glimpse(diamonds)
+ggplot(data=diamonds)+
+  geom_bar(mapping = aes(x=carat, y=))
+```
