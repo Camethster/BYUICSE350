@@ -2,7 +2,7 @@
  
 ## ggplot2
 
-###The grammar of graphics
+### The grammar of graphics
 
 Formatting goes as followsw: 
 
