@@ -1,7 +1,7 @@
 ---
 title: "The Great British Bake Off"
 author: "Cameron Hansen"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+date: "January 27, 2021"
 output:
   html_document:  
     keep_md: true
@@ -12,9 +12,7 @@ output:
     fig_align: 'center'
 ---
 
-```{r, echo=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE)
-```
+
 
 # Tasks
 
@@ -106,15 +104,16 @@ Using group_by() and %>%
 ## Charts
 
 
-```{r}
+
+```r
 library(bakeoff)
 library(tidyverse)
-
 ```
 
 ## My improvements
 
-```{r}
+
+```r
 only_first_last <- ratings %>% # Reads in ratings and future dataframe into a variable called only_first_last
  group_by(series) %>% #Group_by Series creating a new dataframe
  slice(1, n()) %>% #selects the first and the last in each series. 
@@ -131,15 +130,34 @@ ggplot(data = only_first_last, # creates a plot for the data. Then maps x and y 
  color = series_f)) +
  geom_line() +
  geom_point(size = 5)
-
 ```
+
+![](task_07_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
 ### My Graph
 
-```{r}
-glimpse(group_by(ratings,series))
 
+```r
+glimpse(group_by(ratings,series))
+```
+
+```
+## Rows: 94
+## Columns: 9
+## Groups: series [10]
+## $ series               <fct> 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3...
+## $ episode              <fct> 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2...
+## $ uk_airdate           <date> 2010-08-17, 2010-08-24, 2010-08-31, 2010-09-0...
+## $ viewers_7day         <dbl> 2.24, 3.00, 3.00, 2.60, 3.03, 2.75, 3.10, 3.53...
+## $ viewers_28day        <dbl> 7, 3, 2, 4, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1...
+## $ network_rank         <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+## $ channels_rank        <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+## $ bbc_iplayer_requests <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+## $ episode_count        <dbl> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,...
+```
+
+```r
 ratings_10 <-  group_by(ratings,series) %>% 
   mutate(has10 = last(episode) == 10) %>%
   mutate(meany = mean(viewers_7day)) %>% 
@@ -162,6 +180,7 @@ ggplot(ratings_10 ) +
   guides(fill = guide_legend(keywidth = 1, keyheight = 1),
     linetype=guide_legend(keywidth = 3, keyheight = 1),
     colour=guide_legend(keywidth = 3, keyheight = 1))
-
 ```
+
+![](task_07_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
