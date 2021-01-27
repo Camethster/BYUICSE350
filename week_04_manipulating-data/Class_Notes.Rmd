@@ -1,0 +1,60 @@
+---
+title: "Class Notes"
+author: "Student"
+date: "1/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r}
+library(tidyverse)
+library(RcolorBrewer)
+?airquality
+```
+
+## Including Plots
+
+
+
+```{r, echo=FALSE}
+ggplot(airquality, color = ) +
+  geom_point(mapping = aes(x=Temp,y=Ozone, color = Wind),size = 5, alpha = .5) +
+  facet_grid(vars(Month)) +
+  scale_color_gradient(low = "red", high = "blue") + 
+  labs(title = "New York City Ozone Levels")
+```
+
+
+## Table Practice
+
+```{r}
+iris
+
+?arrange()
+
+iris %>% 
+  arrange(desc(Sepal.Length)) %>% 
+  head(6) 
+
+testdat <- iris %>% 
+  select(Species,Petal.Width)
+
+iris  %>% 
+  group_by(Species) %>% 
+  summarise(mean = mean(Petal.Width), sd = sd(Petal.Width))
+
+
+# sepal Length arragne
+
+#  
+
+
+```
+
