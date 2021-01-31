@@ -12,52 +12,27 @@ output:
     fig_align: 'center'
 ---
 
-## Assignment
-You just started your internship at a big firm in New York, and your manager gave you an extensive file of flights that departed JFK, LGA, or EWR in 2013. From this data (which you can obtain in R) your manager wants you to answer the following questions:
-
-- If I am leaving before noon, which two airlines do you recommend at each airport (JFK, LGA, EWR) that will have the lowest delay time at the 75th percentile?
-- Which origin airport is best to minimize my chances of a late arrival when I am using Delta Airlines?
-- Which destination airport is the worst airport for arrival time? (you decide on the metric for "worst")  (Links to an external site.)
-Tasks
-Get the data using this R code:
-
-- Address at least two of the three questions from your manager (if you have time, try to tackle all three).
-Each answer should contain a chart and a description where you state the answer
-- At least one of your visualizations needs to show the complexity of the data (i.e. individual flights, and not only broad summaries).
-- Create an R markdown report that has the graphs and discussions mentioned above.
-- Write an introduction section that describes your results
-- Have a section for each question
-- Make sure your code is in the report but defaults to hidden
-- Push your .Rmd, .md, .html, and graphics folder to your GitHub repo.
-Submission
-
-- Submit a GitHub link to your case study report.
-
 # Introduction
 
 Going over the data I was able to find the answers to some of the questions. In my first metric I decided to use a summary to describe the data. I looked at the average arrival delay for each one of the airports. According to the data it looks like Newark Liberty International Airport (EWR) comes in last. Next I filtered the data into just delta airlines to see which airport has the least amount of late arrivals. I created an late column, and then made the individual observation. 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Which destination airport is the worst airport for arrival time? (you decide on the metric for "worst").
 
-```{r , echo = FALSe}
+
+
+```{r include=FALSE}
 library(tidyverse)
 library(nycflights13)
-?flights
 
-```
-
-
-```{r, echo = FALSE}
-new_flights <- drop_na(new_flights,origin,arr_delay) %>% 
+new_flights <- drop_na(flights,origin,arr_delay) %>% 
   group_by(origin) %>% 
   mutate(avg_delay = mean(arr_delay)) %>% 
   ungroup()
 
-View(new_flights)
 ```
 
 
@@ -75,12 +50,11 @@ If we look at the graph we can see that the Newark Liberty International Airport
 ## Which origin airport is best to minimize my chances of a late arrival when I am using Delta Airlines?
 
 
-```{r}
+```{r echo = FALSE}
 delta_flights <- filter(flights,carrier == "DL",na.rm = TRUE) %>% 
   mutate(late = ifelse(arr_delay > 0,TRUE,FALSE)) %>% 
   drop_na(arr_delay,origin)
 
-View(delta_flights)
 ```
 
 
