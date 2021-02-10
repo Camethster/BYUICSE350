@@ -58,7 +58,14 @@ graph
 
 ## Highlight Plots
 
+
+
+
+
 ### Text
+
+I like this method. It simple easy discriptive and not in the way, but its not very versatile because the text can't  move if its for a different set of data
+
 ```{r}
 graph + 
   geom_line() +
@@ -67,7 +74,12 @@ graph +
   geom_text(x=as.Date("2020-06-19"),y = 1.20, label = "Over 100%", color="grey")
 ```
 
+
+
 ### Fill
+
+This is simple, but its kind of in the way. I don't like the look of it.  I couldn't get  the alpha to work on  this otherwise I feel like it would have been a better option.
+
 ```{r}
 graph + 
   geom_line() +
@@ -82,7 +94,10 @@ graph +
             linetype = 1)
 ```
 
-### Line
+### Shapes
+
+This one is by far the best value, but the only problem is the points don't stick out too much, so it could be missed by someone.
+
 ```{r}
                
 graph + 
@@ -117,6 +132,8 @@ US_graph + geom_line()
 
 ### US Disctinct plots
 
+This one was mostly for fun. I was sad that there was some black spots where there are null values, but I will take this. Its pretty close.  The other colors are suppose to be the other flags of the countries, but the colors are so simple that they are very similar.
+
 
 #### Patriotic
 ```{r}
@@ -129,17 +146,22 @@ Merica <- filter(US_Covid,country == "United.States") %>%
 US_graph +
   geom_line(US_Covid, mapping = aes(x=date, y= percents/100, color = country), size = 3) +
   geom_path(Merica, mapping= aes(x=date,y=percents/100,color = as.factor(colors)),size =  2) +
-  scale_color_manual(values=c("firebrick","#fffff4","blue","#000000","#c8102e","#aa151b","#002868","black"), aesthetics = "color")
+  scale_color_manual(values=c("firebrick","#fffff4","blue","#c8102e","#000000","#aa151b","#002868","black"), aesthetics = "color")
   
 ```
 
 #### Bold
 
+Sweet and simple. I like the pop on this, so it looks good. The US line just covers up the other data, and the res is low, so the border doesn't show up very well. 
+
 
 ```{r}
 US_graph +
-  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, color = country), size = 1) +
-  geom_path(Merica, mapping= aes(x=date,y=percents/100),size =  4)
+  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, group = country), size = 2, color = "black") +
+  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, color = country), size = 1)   +
+  geom_path(Merica, mapping= aes(x=date,y=percents/100),size =  4, color = 'black')+
+  geom_path(Merica, mapping= aes(x=date,y=percents/100),size =  3) 
+  
 ```
 
 
