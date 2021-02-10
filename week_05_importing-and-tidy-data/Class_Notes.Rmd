@@ -1,0 +1,45 @@
+---
+title: "Class Notes"
+author: "Cameron Hansen"
+date: "2/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+pivot_longer(cars,c(speed,dist))
+pivot_wider(cars,c(speed,dist))
+View(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+colnames(relig_income)
+new_tibble <- pivot_longer(relig_income, cols =  `<$10k`:`Don't know/refused`,names_to = "income", values_to = "count" )
+View(new_tibble)
+```
+
+```{r}
+View(fish_encounters)
+?pivot_wider
+
+pivot_wider(fish_encounters,id_cols= fish, names_from = station, values_from = seen, values_fill = 0)
+```
+
+

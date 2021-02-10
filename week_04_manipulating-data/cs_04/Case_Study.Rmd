@@ -67,4 +67,4 @@ ggplot(delta_flights) +
   scale_color_manual(values = c("red","green"),breaks = c(TRUE,FALSE), labels = c("Late","On Time")) 
 ```
 
-After seeing the graph it looks like for delta flights Newark Liberty International Airport (EWR) has the least amount of late flights. 
+After seeing the graph it looks like for delta flights Newark Liberty International Airport (EWR) has the least delay time of late flights. 

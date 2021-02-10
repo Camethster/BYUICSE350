@@ -1,7 +1,7 @@
 ---
 title: "Give Your Visualization Wings to Fly"
 author: "Cameron Hansen"
-date: "January 30, 2021"
+date: "February 08, 2021"
 output:
   html_document:  
     keep_md: true
@@ -40,4 +40,4 @@ If we look at the graph we can see that the Newark Liberty International Airport
 
 ![](Case_Study_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
-After seeing the graph it looks like for delta flights Newark Liberty International Airport (EWR) has the least amount of late flights. 
+After seeing the graph it looks like for delta flights Newark Liberty International Airport (EWR) has the least delay time of late flights. 
