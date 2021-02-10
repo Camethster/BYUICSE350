@@ -20,61 +20,11 @@ output:
 
 ```r
 library(tidyverse)
-```
-
-```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-```
-
-```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.4     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.0
-```
-
-```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(scales)
-```
-
-```
-## 
-## Attaching package: 'scales'
-```
-
-```
-## The following object is masked from 'package:purrr':
-## 
-##     discard
-```
-
-```
-## The following object is masked from 'package:readr':
-## 
-##     col_factor
-```
-
-```r
 covid <- read_csv("https://github.com/ktoutloud/classslides/raw/master/math335/data/M335_excess-mortality-p-scores.csv")
-```
 
-```
-## 
-## -- Column specification --------------------------------------------------------
-## cols(
-##   .default = col_double(),
-##   date = col_date(format = "")
-## )
-## i Use `spec()` for the full column specifications.
-```
 
-```r
+
 pivot_covid  <- transform(covid, date = as.Date(date)) %>% 
   mutate(Spain = Spain*100) %>% 
   pivot_longer(cols = -date,
@@ -107,7 +57,14 @@ graph
 
 ## Highlight Plots
 
+
+
+
+
 ### Text
+
+I like this method. It simple easy discriptive and not in the way, but its not very versatile because the text can't  move if its for a different set of data
+
 
 ```r
 graph + 
@@ -117,17 +74,14 @@ graph +
   geom_text(x=as.Date("2020-06-19"),y = 1.20, label = "Over 100%", color="grey")
 ```
 
-```
-## Warning: Removed 9 row(s) containing missing values (geom_path).
-```
-
-```
-## Warning: Removed 9 rows containing missing values (geom_point).
-```
-
 ![](Task-11_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
+
+
 ### Fill
+
+This is simple, but its kind of in the way. I don't like the look of it.  I couldn't get  the alpha to work on  this otherwise I feel like it would have been a better option.
+
 
 ```r
 graph + 
@@ -143,36 +97,28 @@ graph +
             linetype = 1)
 ```
 
-```
-## Warning: Removed 9 row(s) containing missing values (geom_path).
-```
-
-```
-## Warning: Removed 9 rows containing missing values (geom_point).
-```
-
 ![](Task-11_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
-### Line
+### Shapes
+
+This one is by far the best value, but the only problem is the points don't stick out too much, so it could be missed by someone.
+
 
 ```r
 graph + 
-  geom_point(mapping = aes(x = date, y = percents/100,group = country, color = percents > 100),size = 1)
-```
-
-```
-## Warning: Removed 9 rows containing missing values (geom_point).
+  geom_point(mapping = aes(x = date, y = percents/100,group = country, shape = percents > 100),size = 2) +
+  geom_line()
 ```
 
 ![](Task-11_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
-### US plots
+## US plots
 
 
 ```r
 US_Covid <- filter(pivot_covid, country %in% c("England...Wales","Germany", "Spain","Norway", "United.States"),na.rm = TRUE) 
-View(US_Covid)
+
 
 US_graph <- ggplot(US_Covid,aes(x = date,y = percents / 100, color = country))  +
   theme_bw() +
@@ -182,15 +128,50 @@ US_graph <- ggplot(US_Covid,aes(x = date,y = percents / 100, color = country))  
         panel.grid.major.y = element_line("grey90",linetype = 2),
         panel.border = element_blank(),
         axis.title = element_blank(),
-        legend.position = "none") +
-  geom_line()
+        legend.position = "none") 
   
-US_graph
-```
-
-```
-## Warning: Removed 15 row(s) containing missing values (geom_path).
+  
+US_graph + geom_line()
 ```
 
 ![](Task-11_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+### US Disctinct plots
+
+This one was mostly for fun. I was sad that there was some black spots where there are null values, but I will take this. Its pretty close.  The other colors are suppose to be the other flags of the countries, but the colors are so simple that they are very similar.
+
+
+#### Patriotic
+
+```r
+library(colorspace)
+
+Merica <- filter(US_Covid,country == "United.States") %>% 
+  mutate(colors = ceiling(seq(0.01,3,length.out = 56))) 
+  
+
+US_graph +
+  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, color = country), size = 3) +
+  geom_path(Merica, mapping= aes(x=date,y=percents/100,color = as.factor(colors)),size =  2) +
+  scale_color_manual(values=c("firebrick","#fffff4","blue","#c8102e","#000000","#aa151b","#002868","black"), aesthetics = "color")
+```
+
+![](Task-11_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+#### Bold
+
+Sweet and simple. I like the pop on this, so it looks good. The US line just covers up the other data, and the res is low, so the border doesn't show up very well. 
+
+
+
+```r
+US_graph +
+  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, group = country), size = 2, color = "black") +
+  geom_line(US_Covid, mapping = aes(x=date, y= percents/100, color = country), size = 1)   +
+  geom_path(Merica, mapping= aes(x=date,y=percents/100),size =  4, color = 'black')+
+  geom_path(Merica, mapping= aes(x=date,y=percents/100),size =  3) 
+```
+
+![](Task-11_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
 
